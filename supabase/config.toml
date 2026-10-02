@@ -1,0 +1,5 @@
+project_id = "subtitle-report-service"
+
+[functions.report-dictionary]
+verify_jwt = false
+entrypoint = "./functions/report-dictionary/index.ts"
