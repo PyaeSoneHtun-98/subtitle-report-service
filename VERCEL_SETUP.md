@@ -2,6 +2,13 @@
 
 This deployment stays in `D:\Projects\subtitle-report-service`, separate from the player repository.
 
+## Next.js application
+
+This project now uses Next.js App Router. `npm run check` runs 25 Node/SQL/API tests, 8 React
+behavioral tests, and a production build. Vercel uses the Next.js framework preset. The build
+executes the same bounded report-list query as the owner API when server credentials are present;
+a storage failure stops deployment before replacing the stable production alias.
+
 ## Routes
 
 - `GET /api/health`: public connectivity check; no report or database call.
@@ -86,7 +93,7 @@ Open the production URL and sign in with the owner Auth email/password.
 
 ## Validation
 
-`node --test tests/*.test.mjs` passes 22 tests, including production SQL/roles and the actual
+`npm run check` passes 33 tests and the Next.js production build, including production SQL/roles and the actual
 Vercel handlers: owner/non-owner access, secure session cookie, cross-origin write rejection,
 bounded filters/pagination, status-only updates, safe errors, and relay receipt/payload behavior.
 The dashboard layout was checked locally with synthetic fixtures, not real owner authentication
@@ -100,5 +107,14 @@ acceptance must be recorded separately.
 - Anonymous requests without VPN: dashboard HTTP 200, health HTTP 200, reporting GET HTTP 405, no redirects or Vercel authentication bypass.
 - Two POSTs of the same synthetic smoke report returned HTTP 202. The live database confirms its receipt and grouped count of 1.
 - One synthetic example report remains in the private table; it is testing data, not user feedback.
-- Admin requests currently fail closed with not_configured until the owner UID and private server key are supplied in Vercel.
-- Real owner login/status changes and player manual acceptance remain pending.
+- Owner UID and privately entered server key are configured in Production and redeployed. Anonymous/session-forgery requests return HTTP 401; foreign-origin POST returns HTTP 403. Public dashboard/health remain HTTP 200 without VPN. No secret value was retrieved.
+- Owner confirmed actual login, report listing, and status changes work after the Next.js/key fix. Player manual acceptance remains pending.
+
+
+## Resolved owner storage configuration failure — 2026-10-05
+
+Owner session worked but listing returned 503. Production storage probe reproduced HTTP 401 /
+PostgreSQL 42501. Owner confirmed REPORT_SERVICE_KEY contained sb_publishable_. The database stayed
+private; the owner replaced it privately with sb_secret_. The subsequent deployment passed the
+actual report-list query and count parsing. Public/anon keys are now explicitly rejected by owner
+configuration. Owner confirmed real browser login, report listing, and status save work on the deployed Next.js app on 2026-10-05.

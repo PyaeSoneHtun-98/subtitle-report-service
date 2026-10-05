@@ -10,4 +10,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm test
+      - run: npm run check
+        env:
+          NEXT_TELEMETRY_DISABLED: 1

@@ -1,4 +1,6 @@
 node_modules/
+.next/
+coverage/
 .env
 .env.*
 !.env.example
@@ -6,6 +8,3 @@ supabase/.temp/
 supabase/.branches/
 *.log
 .vercel/
-.vercel
-.env*
-!.env.example
