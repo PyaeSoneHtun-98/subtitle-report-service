@@ -1,18 +1,30 @@
 # Subtitle dictionary reporting service
 
+Next.js owner dashboard and reporting API. Production: https://subtitle-report-service.vercel.app
+
+For the Vercel owner app use [VERCEL_SETUP.md](VERCEL_SETUP.md). Current work and acceptance are in
+[docs/STATUS.md](docs/STATUS.md). The Supabase setup below provisions the separate storage/function.
+
 Separate backend project for [Subtitle Bridge Issue #71](https://github.com/PyaeSoneHtun-98/stremio_dictionary/issues/71).
 The player has only a report icon and an HTTPS client. Supabase code stays here.
 
 ## What it does
 
 - A public POST endpoint accepts an explicitly reported word/headword/phrase and version metadata.
-- No end-user accounts, explanation form, email integration, or player Supabase SDK. A separate owner-only dashboard is now prepared.
+- No end-user accounts, explanation form, email integration, or player Supabase SDK. A separate Next.js owner-only dashboard is deployed.
 - Existing translations are checked manually by the owner.
 - Reports are private; neither anonymous nor authenticated database clients can read/write them.
 - Duplicate terms are grouped with counts. Retried requests reuse a UUID and count once for seven days.
 - At most 500 new request IDs per UTC hour across the service. Retries of accepted IDs still succeed.
 - No IP addresses, device identifiers, subtitle sentences, video paths, stream URLs, credentials, or
   translations are intentionally collected. Do not enable request-body/custom term logging.
+
+## Local dashboard development
+
+Use Node.js 22, then `npm ci`, `npm run dev`, and `npm run check`. The Next.js app lives in `app/` and
+`components/`; owner authorization/storage stays in `lib/`. Set server settings privately in a local
+ignored environment only if you need real owner access. Automated tests need no hosted credentials.
+Do not add NEXT_PUBLIC credentials.
 
 ## Files
 
@@ -101,7 +113,7 @@ Invoke-RestMethod -Method Post -Uri $reportEndpoint -ContentType 'application/js
 ```
 
 Both calls should return `ok: true`. The table should contain one `example/missing` report with
-`report_count = 1`. Remove this smoke-test row through the dashboard after verification.
+`report_count = 1`. Mark the synthetic smoke-test report Dismissed after verification; the owner app does not delete reports.
 
 ## 5. Connect the official app
 
@@ -165,7 +177,7 @@ metadata; do not promise that the provider never sees an IP address.
 
 Local Node handler/storage tests and PGlite migration/permission tests pass.
 Project axcpqizzmjwdwwpdaggf is linked. The existing migration is up to date; report-dictionary was deployed as ACTIVE version 1 with JWT verification disabled on 2026-10-02. Live table/function presence and restricted RPC permissions were verified through the Management API.
-Real submission acceptance is still failing: the owner sees the retry tooltip, and local Node/Electron network checks cannot obtain an HTTP response from the project endpoint. The management API is reachable. Investigate connectivity before claiming manual acceptance.
+Direct Supabase connectivity still fails on the tested connection. The Vercel reporting relay is verified without VPN, including retries through the Next.js route. Real player acceptance remains pending. Owner report listing initially failed because a publishable key was configured instead of a secret key; the owner replaced it privately, and the real production query now passes. Owner browser login/list/status recheck remains pending.
 
 ## Vercel reporting endpoint and owner interface
 

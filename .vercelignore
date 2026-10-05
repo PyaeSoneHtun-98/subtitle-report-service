@@ -1,10 +1,10 @@
 .git/
 .vercel/
 node_modules/
+.next/
 .env*
 supabase/.temp/
 supabase/.branches/
 supabase/migrations/
 tests/
 *.log
-README.md

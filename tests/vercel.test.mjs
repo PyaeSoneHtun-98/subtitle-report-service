@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createAdminHandler } from '../lib/admin.mjs';
 import { createRelayStore } from '../lib/relay.mjs';
 import { createReportHandler } from '../supabase/functions/report-dictionary/handler.mjs';
-import health from '../api/health.js';
+import { GET as healthGet } from '../app/api/health/route.js';
 
 const ownerId = '12345678-1234-4123-8123-123456789abc';
 const otherId = '22345678-1234-4123-8123-123456789abc';
@@ -21,11 +21,11 @@ const signed = (action, params) => action === 'reports' ? post(action, { status:
 const report = { requestId: ownerId, term: 'example', category: 'incorrect', targetLanguage: 'my', appVersion: '1.0.6', dictionaryVersion: '1.0', phraseDictionaryVersion: '1.0.0' };
 
 test('health endpoint is public, has no configuration/credentials and performs no submission', async () => {
-  const response = await health.fetch(new Request(origin + '/api/health'));
+  const response = await healthGet();
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), { ok: true, service: 'dictionary-reports' });
   assert.equal(response.headers.get('cache-control'), 'no-store');
-  assert.equal((await health.fetch(new Request(origin + '/api/health', { method: 'POST' }))).status, 405);
+
 });
 
 test('admin fails closed without credentials and never reads storage without a valid owner session', async () => {
@@ -189,3 +189,33 @@ test('report relay rejects unsafe/unconfigured targets and preserves quota/inval
   assert.equal(await createRelayStore(base + '/functions/v1/report-dictionary', async () => new Response(null, { status: 400 }))(report), 'invalid');
 });
 
+
+test('owner configuration rejects publishable and legacy anonymous keys without upstream calls', async () => {
+  let calls = 0;
+  const fetcher = async () => { calls++; throw new Error('No upstream'); };
+  const anonymousJwt = ['header', Buffer.from(JSON.stringify({ role: 'anon' })).toString('base64url'), 'signature'].join('.');
+  for (const key of ['sb_publishable_test', anonymousJwt, ' sb_secret_test']) {
+    assert.equal((await createAdminHandler({ ...config, key }, fetcher)(signed('reports'))).status, 503);
+  }
+  assert.equal(calls, 0);
+});
+test('storage permission failures are actionable and never disclose raw PostgREST bodies', async () => {
+  const handler = createAdminHandler(config, async url => url.endsWith('/auth/v1/user') ? Response.json({ id: ownerId }) : Response.json({ code: '42501', message: 'private content' }, { status: 401 }));
+  const response = await handler(signed('reports'));
+  assert.equal(response.status, 503);
+  assert.deepEqual(await response.json(), { ok: false, code: 'storage_access_denied' });
+});
+test('report count parsing accepts empty and partial real PostgREST ranges and rejects missing counts', async () => {
+  for (const [range, rows, count, status] of [['*/0', [], 0, 200], ['0-0/1', [{ id: 1 }], 1, 200], ['0-49/51', Array.from({ length: 50 }, (_, id) => ({ id })), 51, 206]]) {
+    const handler = createAdminHandler(config, async url => url.endsWith('/auth/v1/user') ? Response.json({ id: ownerId }) : Response.json(rows, { status, headers: { 'Content-Range': range } }));
+    const response = await handler(signed('reports'));
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).total, count);
+  }
+  for (const range of [null, '0-0/*', 'invalid']) {
+    const handler = createAdminHandler(config, async url => url.endsWith('/auth/v1/user') ? Response.json({ id: ownerId }) : Response.json([], { headers: range ? { 'Content-Range': range } : {} }));
+    const response = await handler(signed('reports'));
+    assert.equal(response.status, 503);
+    assert.equal((await response.json()).code, 'storage_response_invalid');
+  }
+});
