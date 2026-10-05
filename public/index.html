@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dictionary reports</title><link rel="stylesheet" href="/dashboard.css"><script src="/dashboard.js" defer></script></head>
+<body><main>
+<header><div><span class="eyebrow">Subtitle Bridge · Owner dashboard</span><h1>Dictionary reports</h1><p>Review missing words and reported translations.</p></div><button id="logout" class="secondary" hidden>Sign out</button></header>
+<p id="message" role="status" aria-live="polite">Checking your session…</p>
+<section id="login" class="card login" hidden><h2>Owner sign in</h2><p>Use the owner account configured for this reporting service.</p>
+<form id="login-form"><label>Email<input id="email" name="email" type="email" autocomplete="username" maxlength="160" required></label>
+<label>Password<input id="password" name="password" type="password" autocomplete="current-password" maxlength="256" required></label>
+<button type="submit" id="sign-in">Sign in</button></form></section>
+<section id="dashboard" hidden>
+<form id="filters" class="card filters"><label class="search">Search word or phrase<input id="query" type="search" placeholder="e.g. give up" maxlength="120"></label>
+<label>Review status<select id="status"><option value="">All statuses</option><option value="new" selected>New</option><option value="reviewed">Reviewed</option><option value="added">Added</option><option value="rejected">Rejected</option></select></label>
+<label>Report type<select id="category"><option value="">All types</option><option value="missing">Missing translation</option><option value="incorrect">Translation issue</option></select></label>
+<button type="submit" id="refresh">Refresh</button></form>
+<div class="summary"><p id="summary">Loading reports…</p><p class="muted">Status changes do not modify the dictionary.</p></div>
+<div class="card table-wrap"><table><caption class="sr-only">Reported dictionary entries</caption><thead><tr><th scope="col">Word or phrase</th><th scope="col">Type</th><th scope="col">Reports</th><th scope="col">Last reported</th><th scope="col">Review status</th></tr></thead><tbody id="rows"></tbody></table><p id="empty" hidden>No reports match these filters.</p></div>
+<nav class="pagination" aria-label="Report pages"><button id="previous" class="secondary" disabled>Previous</button><span id="page">Page 1</span><button id="next" class="secondary" disabled>Next</button></nav>
+</section><footer>Private report review · English → Burmese</footer>
+</main></body></html>

@@ -25,7 +25,7 @@ function reply(status, code, ok = false) {
   });
 }
 
-async function readBoundedJson(request) {
+export async function readBoundedJson(request) {
   const declared = request.headers.get('content-length');
   if (declared !== null && (!/^\d+$/.test(declared) || Number(declared) > MAX_BODY_BYTES)) throw new Error('body');
   const reader = request.body?.getReader();

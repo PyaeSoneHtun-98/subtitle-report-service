@@ -6,7 +6,7 @@ The player has only a report icon and an HTTPS client. Supabase code stays here.
 ## What it does
 
 - A public POST endpoint accepts an explicitly reported word/headword/phrase and version metadata.
-- No accounts, explanation form, owner website, email integration, or player Supabase SDK.
+- No end-user accounts, explanation form, email integration, or player Supabase SDK. A separate owner-only dashboard is now prepared.
 - Existing translations are checked manually by the owner.
 - Reports are private; neither anonymous nor authenticated database clients can read/write them.
 - Duplicate terms are grouped with counts. Retried requests reuse a UUID and count once for seven days.
@@ -164,5 +164,9 @@ metadata; do not promise that the provider never sees an IP address.
 ## Validation status
 
 Local Node handler/storage tests and PGlite migration/permission tests pass.
-A hosted Supabase project has not been created or deployed by this task.
-Real deployed submissions and manual Windows playback acceptance remain pending.
+Project axcpqizzmjwdwwpdaggf is linked. The existing migration is up to date; report-dictionary was deployed as ACTIVE version 1 with JWT verification disabled on 2026-10-02. Live table/function presence and restricted RPC permissions were verified through the Management API.
+Real submission acceptance is still failing: the owner sees the retry tooltip, and local Node/Electron network checks cannot obtain an HTTP response from the project endpoint. The management API is reachable. Investigate connectivity before claiming manual acceptance.
+
+## Vercel reporting endpoint and owner interface
+
+The direct Supabase hostname remains unreachable without VPN on the tested connection. The owner requested a Vercel endpoint plus a private report-review interface on 2026-10-05. See [VERCEL_SETUP.md](VERCEL_SETUP.md) for the routes, private owner setup, security behavior, and truthful remaining acceptance gates.

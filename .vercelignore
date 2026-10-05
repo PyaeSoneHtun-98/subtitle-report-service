@@ -1,0 +1,10 @@
+.git/
+.vercel/
+node_modules/
+.env*
+supabase/.temp/
+supabase/.branches/
+supabase/migrations/
+tests/
+*.log
+README.md
