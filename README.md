@@ -177,7 +177,7 @@ metadata; do not promise that the provider never sees an IP address.
 
 Local Node handler/storage tests and PGlite migration/permission tests pass.
 Project axcpqizzmjwdwwpdaggf is linked. The existing migration is up to date; report-dictionary was deployed as ACTIVE version 1 with JWT verification disabled on 2026-10-02. Live table/function presence and restricted RPC permissions were verified through the Management API.
-Direct Supabase connectivity still fails on the tested connection. The Vercel reporting relay is verified without VPN, including retries through the Next.js route. Real player acceptance remains pending. Owner report listing initially failed because a publishable key was configured instead of a secret key; the owner replaced it privately, and the real production query now passes. Owner browser login/list/status recheck remains pending.
+Direct Supabase connectivity still fails on the tested connection. The Vercel reporting relay is verified without VPN, including retries through the Next.js route. Real player acceptance remains pending. Owner report listing initially failed because a publishable key was configured instead of a secret key; the owner replaced it privately, and the real production query now passes. Owner confirmed real browser login/list/status acceptance on the deployed Next.js app on 2026-10-05.
 
 ## Vercel reporting endpoint and owner interface
 

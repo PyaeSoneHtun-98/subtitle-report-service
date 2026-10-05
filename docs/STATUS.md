@@ -48,10 +48,16 @@ access denial from other unavailable storage; no raw upstream error bodies are e
   forged session HTTP 401, foreign-origin admin POST HTTP 403.
 - Two retries with the pre-existing synthetic receipt returned HTTP 202 through the new Next.js route.
 
+## Owner acceptance and CI
+
+On 2026-10-05 the owner confirmed actual login, loading the synthetic report, and saving its review
+status work on the deployed Next.js app. This is owner-reported acceptance, not agent credential use.
+Exact-code-head CI #3 passed at 13ed2f8ab0d064b51fba291587feba923cf6f318.
+
 ## Pending
 
-- Owner rechecks actual browser login, report listing, and status save after the fix.
-- Exact branch CI, final code review, and merge decision; no merge is requested.
+- Live non-owner acceptance remains pending; automated tests verify non-owner denial.
+- Final code review and merge decision; no merge is requested.
 - Vercel Git auto-deploy integration is not yet connected; deployment currently uses the CLI.
 - Player Issue #71 / Draft PR #72 still requires real player Windows acceptance and official build
   endpoint configuration. Its unrelated pinned FFmpeg 404 is tracked in player Issue #73.

@@ -108,7 +108,7 @@ acceptance must be recorded separately.
 - Two POSTs of the same synthetic smoke report returned HTTP 202. The live database confirms its receipt and grouped count of 1.
 - One synthetic example report remains in the private table; it is testing data, not user feedback.
 - Owner UID and privately entered server key are configured in Production and redeployed. Anonymous/session-forgery requests return HTTP 401; foreign-origin POST returns HTTP 403. Public dashboard/health remain HTTP 200 without VPN. No secret value was retrieved.
-- Real owner login/status changes and player manual acceptance remain pending.
+- Owner confirmed actual login, report listing, and status changes work after the Next.js/key fix. Player manual acceptance remains pending.
 
 
 ## Resolved owner storage configuration failure — 2026-10-05
@@ -117,4 +117,4 @@ Owner session worked but listing returned 503. Production storage probe reproduc
 PostgreSQL 42501. Owner confirmed REPORT_SERVICE_KEY contained sb_publishable_. The database stayed
 private; the owner replaced it privately with sb_secret_. The subsequent deployment passed the
 actual report-list query and count parsing. Public/anon keys are now explicitly rejected by owner
-configuration. Real owner browser login/list/status recheck remains pending.
+configuration. Owner confirmed real browser login, report listing, and status save work on the deployed Next.js app on 2026-10-05.
