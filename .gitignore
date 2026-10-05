@@ -8,3 +8,4 @@ supabase/.branches/
 .vercel/
 .vercel
 .env*
+!.env.example
