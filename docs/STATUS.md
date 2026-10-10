@@ -17,7 +17,15 @@ This focused UI change is stacked on open Draft PR #2; neither PR is merged.
   no page-wide horizontal overflow, SVG loaded, search, selection, status save, retry, empty state
   and pagination verified. Small-screen details remain scroll-reachable; status navigation scrolls
   horizontally within its own container. Login also verified at 320px. Fixtures use no live reports.
-- Exact-head CI, production deployment and owner live theme acceptance are pending.
+- Code-head CI #7 passed at `4bcece6fb2a5492e3f5a48369d5a61835290acef`.
+- Production deployment `dpl_CDQ2HpMduK5kZyXjvQS4qcGTVf9U` is READY at
+  https://subtitle-report-service.vercel.app. Vercel's build passed the real production
+  report-list query and count parser with unchanged server configuration.
+- Anonymous live checks: dashboard/health 200, admin session 401, reporting GET 405;
+  nonce CSP is present, deployed charcoal CSS loads, approved SVG hash matches the source.
+  Production browser login shell also shows charcoal background and loaded branding without overflow.
+- Draft PR #4 targets the existing Next.js branch. Owner live theme acceptance and final merge
+  decision remain pending; no private reports were read and no live report status was changed.
 
 ### Earlier Next.js implementation
 
@@ -61,7 +69,8 @@ access denial from other unavailable storage; no raw upstream error bodies are e
 - Local npm run check: 25 Node/SQL/API tests plus 8 actual React lifecycle tests; production build.
 - Dependency audit: zero known vulnerabilities at installation.
 - Synthetic desktop and 390px narrow inbox preview; no live owner data in that preview.
-- Current production Next.js deployment dpl_Ce16C2tQPdYoJbcQ7NbPLiSUroNi is READY.
+- Earlier Next.js deployment dpl_Ce16C2tQPdYoJbcQ7NbPLiSUroNi passed the checks below;
+  the current theme deployment is recorded under Issue #3 above.
 - Real report-list storage query passed in the Vercel build with the privately corrected key.
 - Anonymous no-VPN HTTPS: dashboard/health HTTP 200, admin session/report reads HTTP 401,
   forged session HTTP 401, foreign-origin admin POST HTTP 403.
