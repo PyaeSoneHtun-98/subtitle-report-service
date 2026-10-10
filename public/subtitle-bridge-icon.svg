@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Subtitle Bridge app icon">
+  <title>Subtitle Bridge app icon</title>
+  <rect width="256" height="256" rx="56" fill="#181818"/>
+  <g transform="translate(0 16)">
+<g id="bridge" fill="none" stroke="#f5f5f5" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <path id="arch" d="M40 100C75 83 84 32 128 32S181 83 216 100"/>
+    <path id="end-piers" d="M40 76V160M216 76V160"/>
+    <path id="supports" d="M86 55V106M128 32V106M170 55V106" stroke-linecap="butt"/>
+  </g>
+  <g id="subtitles" fill="none" stroke="#f5f5f5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="bubble" stroke-width="14" d="M88 106H168C190 106 206 124 206 146V150C206 168 192 182 174 182H140L128 196L116 182H82C64 182 50 168 50 150V146C50 124 66 106 88 106Z"/>
+    <path id="caption-lines" stroke-width="11" d="M82 138H174M82 158H144"/>
+  </g>
+  </g>
+</svg>
