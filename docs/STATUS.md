@@ -2,6 +2,33 @@
 
 ## Current work
 
+### Issue #3 — app-matched dashboard theme (2026-10-10)
+
+Owner assigned implementation to Codex. Branch: `codex/issue-3-charcoal-dashboard`.
+This focused UI change is stacked on open Draft PR #2; neither PR is merged.
+
+- App palette: charcoal #181818, layered gray surfaces, off-white text and white controls on gray.
+- Approved app SVG on login/inbox and browser icon; clearer text, spacing, focus and responsive layouts.
+- Only CSS, two decorative brand images, metadata and documentation changed; owner authentication,
+  reporting/storage/API and React request lifecycle are unchanged.
+- Local `npm run check` passed: 25 Node/SQL/API tests, 8 React lifecycle tests, Next.js production build.
+  Local storage readiness was skipped without deployment credentials; this is not live storage acceptance.
+- Synthetic actual-component browser previews passed desktop 1280px, narrow 390px and 320px:
+  no page-wide horizontal overflow, SVG loaded, search, selection, status save, retry, empty state
+  and pagination verified. Small-screen details remain scroll-reachable; status navigation scrolls
+  horizontally within its own container. Login also verified at 320px. Fixtures use no live reports.
+- Code-head CI #7 passed at `4bcece6fb2a5492e3f5a48369d5a61835290acef`.
+- Production deployment `dpl_CDQ2HpMduK5kZyXjvQS4qcGTVf9U` is READY at
+  https://subtitle-report-service.vercel.app. Vercel's build passed the real production
+  report-list query and count parser with unchanged server configuration.
+- Anonymous live checks: dashboard/health 200, admin session 401, reporting GET 405;
+  nonce CSP is present, deployed charcoal CSS loads, approved SVG hash matches the source.
+  Production browser login shell also shows charcoal background and loaded branding without overflow.
+- Draft PR #4 targets the existing Next.js branch. Owner live theme acceptance and final merge
+  decision remain pending; no private reports were read and no live report status was changed.
+
+### Earlier Next.js implementation
+
 Issue #1: Next.js rewrite and report-list failure fix, implemented by Codex at the owner's request.
 Branch: `codex/issue-1-next-dashboard`.
 Source repository: https://github.com/PyaeSoneHtun-98/subtitle-report-service
@@ -42,7 +69,8 @@ access denial from other unavailable storage; no raw upstream error bodies are e
 - Local npm run check: 25 Node/SQL/API tests plus 8 actual React lifecycle tests; production build.
 - Dependency audit: zero known vulnerabilities at installation.
 - Synthetic desktop and 390px narrow inbox preview; no live owner data in that preview.
-- Current production Next.js deployment dpl_Ce16C2tQPdYoJbcQ7NbPLiSUroNi is READY.
+- Earlier Next.js deployment dpl_Ce16C2tQPdYoJbcQ7NbPLiSUroNi passed the checks below;
+  the current theme deployment is recorded under Issue #3 above.
 - Real report-list storage query passed in the Vercel build with the privately corrected key.
 - Anonymous no-VPN HTTPS: dashboard/health HTTP 200, admin session/report reads HTTP 401,
   forged session HTTP 401, foreign-origin admin POST HTTP 403.
@@ -59,5 +87,5 @@ Exact-code-head CI #3 passed at 13ed2f8ab0d064b51fba291587feba923cf6f318.
 - Live non-owner acceptance remains pending; automated tests verify non-owner denial.
 - Final code review and merge decision; no merge is requested.
 - Vercel Git auto-deploy integration is not yet connected; deployment currently uses the CLI.
-- Player Issue #71 / Draft PR #72 still requires real player Windows acceptance and official build
-  endpoint configuration. Its unrelated pinned FFmpeg 404 is tracked in player Issue #73.
+- Player reporting shipped in v1.0.7: PR #72 and the separate FFmpeg fix PR #74 are merged.
+  Earlier player acceptance and FFmpeg 404 notes are historical; consult the player repository for current status.

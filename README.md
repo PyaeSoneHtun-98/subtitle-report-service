@@ -19,6 +19,12 @@ The player has only a report icon and an HTTPS client. Supabase code stays here.
 - No IP addresses, device identifiers, subtitle sentences, video paths, stream URLs, credentials, or
   translations are intentionally collected. Do not enable request-body/custom term logging.
 
+## Dashboard appearance
+
+The owner login and inbox use the Subtitle Bridge app palette: charcoal background, layered gray
+surfaces, off-white text and white controls on gray. Approved SVG branding lives in
+`public/subtitle-bridge-icon.svg`; shared responsive styles are in `app/globals.css`.
+
 ## Local dashboard development
 
 Use Node.js 22, then `npm ci`, `npm run dev`, and `npm run check`. The Next.js app lives in `app/` and

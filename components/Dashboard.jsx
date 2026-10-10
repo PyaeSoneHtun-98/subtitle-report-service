@@ -96,7 +96,7 @@ export default function Dashboard() {
   const changeFilter = patch => { setSaved(''); setFilters(previous => ({ ...previous, ...patch, page: '0' })); };
   const signOut = () => mutate('logout', {}, () => { setAuth('signed-out'); setResult(null); setSelectedId(null); setSearch(''); setFilters({ status: 'new', category: '', q: '', page: '0' }); });
   if (auth !== 'signed-in') return <main className="login-page">
-    <div className="login-brand"><span className="brand-mark"><BookOpen size={21} /></span> Subtitle Bridge <span className="private-tag"><LockKeyhole size={11} /> Private workspace</span></div>
+    <div className="login-brand"><img className="brand-mark" src="/subtitle-bridge-icon.svg" alt="" width="40" height="40" /> Subtitle Bridge <span className="private-tag"><LockKeyhole size={11} /> Private workspace</span></div>
     <div className="login-shell"><section className="login-intro">
       <span className="eyebrow">A BETTER DICTIONARY, ONE WORD AT A TIME</span>
       <h1>Small reports.<br /><em>Better translations.</em></h1>
@@ -121,7 +121,7 @@ export default function Dashboard() {
   const pages = Math.max(1, Math.ceil((total ?? 0) / 50));
   return <div className="workspace">
     <aside className="sidebar">
-      <div className="brand"><span className="brand-mark"><BookOpen size={21} /></span><div>Subtitle Bridge<small>Dictionary workspace</small></div></div>
+      <div className="brand"><img className="brand-mark" src="/subtitle-bridge-icon.svg" alt="" width="40" height="40" /><div>Subtitle Bridge<small>Dictionary workspace</small></div></div>
       <div className="nav-label">REPORT INBOX</div>
       <nav aria-label="Report views">{statuses.map(([id, label, Icon]) => <button key={id} className={'nav-item ' + (filters.status === id ? 'active' : '')} aria-current={filters.status === id ? 'page' : undefined} disabled={busy} onClick={() => changeFilter({ status: id })}><Icon size={17} /><span>{label}</span>{id === filters.status && <span className="nav-dot" />}</button>)}</nav>
       <div className="sidebar-note"><span className="note-icon"><BookOpen size={19} /></span><strong>Built for better learning</strong><p>Every report helps you find the next word worth improving.</p><span className="language-pill">English <ArrowRight size={12} /> Burmese</span></div>
